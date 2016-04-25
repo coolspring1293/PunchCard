@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+
+    <com.team10.punchcard.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.team10.punchcard.TitleView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/title_view"
+        android:layout_height="180dp"
+        android:background="@drawable/bg1"
+        android:id="@+id/relativeLayout">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg7">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout1">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="昵称："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="刘旺"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:ems="8"
+                android:id="@+id/editText"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textView4" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout2"
+            android:layout_below="@id/layout1">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="金币："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView5"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="$233"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:ems="8"
+                android:id="@+id/editText1"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textView5" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout3"
+            android:layout_below="@id/layout2">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="连续打卡："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView6"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12天"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:ems="8"
+                android:id="@+id/editText2"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textView6" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout4"
+            android:layout_below="@id/layout3">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="性别："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView7"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="4dp"
+                android:paddingLeft="10dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/radioButton2"
+
+                android:layout_alignTop="@+id/radioButton"
+                android:layout_toEndOf="@+id/radioButton"
+                android:layout_marginStart="40dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/radioButton"
+                android:checked="true"
+                android:layout_toEndOf="@+id/textView7" />
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout5"
+            android:layout_below="@id/layout4">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="家庭住址："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView8"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="中国 辽宁 盘锦"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:ems="8"
+                android:id="@+id/editText3"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/textView8" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout6"
+            android:layout_below="@id/layout5">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="爱好："
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/textView9"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="4dp"
+                android:paddingLeft="10dp"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="足球"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/checkBox"
+                android:layout_toEndOf="@+id/textView9"
+                android:checked="true"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="篮球"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:id="@+id/checkBox1"
+                android:layout_alignTop="@+id/checkBox"
+                android:layout_toEndOf="@+id/checkBox"
+                android:layout_marginLeft="6dp"
+                android:checked="true"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,125 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#eaeaea"
+    >
+
+
+    <com.team10.punchcard.TitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.team10.punchcard.TitleView>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        // 这里第一行显示标签为一个水平布局
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:background="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="surge"
+                android:textColor="#000066"
+                android:textSize="40sp"
+                android:padding="5dp"
+                android:layout_margin="1dp"
+                android:layout_weight="6">
+            </TextView>
+            <ImageView
+                android:src="@drawable/laba"
+                android:background="#ffffff"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:maxHeight="30dp"
+                android:maxWidth="30dp"
+                android:layout_margin="1dp"
+                android:padding="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="n. 汹涌，澎湃\nvi. 汹涌；强烈感到；飞涨\nvt. 放开，松手"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:padding="15dp"
+                android:layout_margin="1dp">
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" 1. Specialists see various reasons for the recent surge in inflation.\n专家们都认为目前通货膨胀加剧有多种原因。"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:padding="15dp"
+                android:layout_margin="1dp">
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" 2. There has been a surge of UFO sightings in America.\n美国不明飞行物目击事件激增。"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:padding="15dp"
+                android:layout_margin="1dp">
+            </TextView>
+
+        </LinearLayout>
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:text="来自六级词汇基础"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_margin="3dp">
+        </TextView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#CCCCFF"
+            android:text="下一个"
+            android:textColor="#8f8f8f"
+            android:textSize="28sp"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

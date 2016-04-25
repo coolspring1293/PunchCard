@@ -10,10 +10,106 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.team10.punchcard.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:background="@drawable/bg6">
 
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_marginTop="20dp"
+        android:id="@+id/layout1">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/head" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你好，刘旺！\n你已经连续签到11天！\n今日未签到！\n快去签到！"
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageView2"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到"
+            android:background="@drawable/bg_btn_gray_pressed_dkgray"
+            android:id="@+id/button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/layout1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你已经超越了70%的好友！"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar01"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="100"
+            android:progressDrawable="@drawable/bar_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:progress="70"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日你已经背了35个单词，还差65个。"
+            android:textStyle="bold"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/progressBar01"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/spread_pie_chart"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
+            android:layout_below="@+id/textView3"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"/>
+
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="开始学习！"
+            android:textSize="26dp"
+            android:textColor="#696969"
+            android:background="@drawable/bg_btn_gray_pressed_dkgray"
+            android:id="@+id/button2"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/spread_pie_chart"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

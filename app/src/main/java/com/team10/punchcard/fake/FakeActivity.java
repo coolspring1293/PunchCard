@@ -109,8 +109,6 @@ public class FakeActivity extends AppCompatActivity {
     /** 获取一个用户的信息
     * */
     private void getUserInfo() {
-
-
         final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
                 "http://www.liuw53.top/json/index.php?" + "name=liuw53&password=nopwd");
         httpUrlConnection.getJsonFromInternet();

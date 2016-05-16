@@ -93,6 +93,30 @@ public class User {
         }
     }
 
+    public boolean updata(String json) {
+
+
+        return true;
+    }
+
+
+    public List<User> getUserList(String json) {
+        List<User> userList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); ++ i) {
+                JSONObject tmp = jsonArray.getJSONObject(i);
+                User user = new User(tmp.toString());
+                userList.add(user);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+
     @Override
     public String toString() {
         String tmp = "id: " + this.id + "\n";

@@ -1,0 +1,49 @@
+{
+  "msg": "SUCCESS",
+  "status_code": 0,
+  "data": {
+    "pronunciations": {
+      "uk": "k\u0259'nekt",
+      "us": "k\u0259'nekt"
+    },
+    "en_definitions": {
+      "v": [
+        "connect, fasten, or put together two or more pieces",
+        "make a logical or causal connection", "be or become joined or united or linked"]
+    },
+    "audio":
+    "http://media.shanbay.com/audio/us/connect.mp3",
+    "audio_addresses": {
+      "uk": [
+        "https://words-audio.oss.aliyuncs.com/uk%2Fc%2Fco%2Fconnect.mp3",
+        "http://words-audio.cdn.shanbay.com/uk/c/co/connect.mp3"],
+      "us": [
+        "https://words-audio.oss.aliyuncs.com/us%2Fc%2Fco%2Fconnect.mp3",
+        "http://words-audio.cdn.shanbay.com/us/c/co/connect.mp3"]
+    },
+    "en_definition": {
+      "pos":
+      "v",
+      "defn": "connect, fasten, or put together two or more pieces; make a logical or causal connection; be or become joined or united or linked"
+    },
+    "uk_audio": "http://media.shanbay.com/audio/uk/connect.mp3",
+    "has_audio": true,
+    "conent_id": 1794,
+    "num_sense": 1,
+    "object_id": 1794,
+    "content": "connect",
+    "pron": "k\u0259'nekt",
+    "pronunciation": "k\u0259'nekt",
+    "audio_name": "connect",
+    "content_type": "vocabulary",
+    "definition": " vt. \u8fde\u63a5,\u8054\u901a,\u4f7f\u6709\u8054\u7cfb\nvi. \u8fde\u63a5,\u63a5\u901a",
+    "sense_id": 0,
+    "content_id": 1794,
+    "id": 1794,
+    "cn_definition": {
+      "pos": "",
+      "defn": "vt. \u8fde\u63a5,\u8054\u901a,\u4f7f\u6709\u8054\u7cfb\nvi. \u8fde\u63a5,\u63a5\u901a"
+    },
+    "us_audio": "http://media.shanbay.com/audio/us/connect.mp3"
+  }
+}

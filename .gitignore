@@ -30,3 +30,5 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+.idea/libraries/animated_vector_drawable_23_2_1.xml

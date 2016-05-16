@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.team10.punchcard.R;
-import com.team10.punchcard.unity.Basic;
 import com.team10.punchcard.unity.HttpUrlConnection;
 import com.team10.punchcard.unity.User;
 import com.team10.punchcard.unity.Word;
@@ -61,36 +60,35 @@ public class FakeActivity extends AppCompatActivity {
         // queryWord();
 
 
-        register();
-
+        // getUserInfo();
+        Register();
 
     }
 
 
     /** 注册
-     * @content
+     *
      * @url 接口URL(包含username和password)
-     * @user.register() 返回值是否注册成功
+     *  返回值是否注册成功
+     *  测试样例username=liuw53@password=1234能注册成功，但是这里是php的弱类型。能不能绕过看人品
+     *
      */
-    private void register() {
-        et.setText("username=liuw53&password=1234");
-        final String content = "username=liuw53&password=1234";
+    private void Register() {
+
+        final String content = "username=liggg3&password=1234";
         final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
                 "http://www.liuw53.top/json/register/index.php?" + content);
         httpUrlConnection.getJsonFromInternet();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_input = et.getText().toString();
                 String urlReg = "http://www.liuw53.top/json/register/index.php?" + content;
 
                 try {
                     User user = new User();
-                    //boolean isOK = user.register(httpUrlConnection.getResult());
-                    tv.setText(httpUrlConnection.getResult());
-
-//                    if (isOK) tv.setText("Register Successfuly!");
-//                    else      tv.setText("Register Failed!");
+                    boolean isOK = user.register(httpUrlConnection.getResult());
+                    if (isOK) showout = "Register Successfuly!";
+                    else      showout = "Register Failed!";
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -105,10 +103,13 @@ public class FakeActivity extends AppCompatActivity {
         });
     }
 
+    // 实现方法getUserInfo()一样，找不则返回为null
+    private void Login() {}
+
     /** 获取一个用户的信息
     * */
     private void getUserInfo() {
-        et.setText("name=liuw53&password=nopwd");
+
 
         final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
                 "http://www.liuw53.top/json/index.php?" + "name=liuw53&password=nopwd");
@@ -116,8 +117,7 @@ public class FakeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_input = et.getText().toString();
-                String urlReg = "http://www.liuw53.top/json/index.php?" + user_input;
+                String urlReg = "http://www.liuw53.top/json/index.php?" + "username=liuw53";
 
                 try {
                     User user = new User(httpUrlConnection.getResult());

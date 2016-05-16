@@ -36,7 +36,10 @@ public class User {
 //        $this->goldCoinToday = $gt;
 //    }
 
-    public User() {}
+    public User() {
+        // id == -1 说明没有找到
+        this.id = -1;
+    }
 
     public User(int i, String n, String av, int a, int b, int c) {
         this.id = i;
@@ -53,7 +56,10 @@ public class User {
         boolean RegisterOK = false;
         try {
             JSONObject jsonObject = new JSONObject(json);
-            RegisterOK = (jsonObject.getInt("statue") == 200 ? true : false);
+            if (jsonObject.getInt("statue_code") == 200) {
+                RegisterOK = true;
+            }
+
 //            JSONObject data = jsonObject.getJSONObject("user");
 //
 //            //maybe no use
@@ -68,6 +74,7 @@ public class User {
 
     public User(String json) {
         try {
+            // 如果没有json返回值，则这里会抛出异常并接住，
             JSONObject jsonObject = new JSONObject(json);
             JSONObject data = jsonObject.getJSONObject("user");
 

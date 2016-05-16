@@ -16,6 +16,8 @@ import com.team10.punchcard.unity.HttpUrlConnection;
 import com.team10.punchcard.unity.User;
 import com.team10.punchcard.unity.Word;
 
+import java.util.List;
+
 public class FakeActivity extends AppCompatActivity {
 
 
@@ -61,8 +63,43 @@ public class FakeActivity extends AppCompatActivity {
 
 
         // getUserInfo();
-        Register();
+        // Register();
+        getAllUser();
+    }
 
+
+    /**
+     * 获取好友列表。排行榜等
+     */
+    private void getAllUser() {
+
+        final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
+                "http://www.liuw53.top/json/list/index.php?id=1");
+        httpUrlConnection.getJsonFromInternet();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String urlList = "http://www.liuw53.top/json/list/index.php?id=1";
+
+                try {
+                    List<User> userList =  User.getUserList(httpUrlConnection.getResult());
+                    showout = "";
+                    for (User u : userList) {
+                        showout += (u.toString() + "\n\n");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                isSelect = !isSelect;
+                if (isSelect) { tv.setText(""); }
+                else tv.setText(showout);
+
+                Snackbar.make(view, "Show: " + urlList, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
 
@@ -103,7 +140,7 @@ public class FakeActivity extends AppCompatActivity {
         });
     }
 
-    // 实现方法getUserInfo()一样，找不则返回为null
+    // 实现方法getUserInfo()一样，找不则返回为user.id => -1
     private void Login() {}
 
     /** 获取一个用户的信息

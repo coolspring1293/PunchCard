@@ -93,19 +93,27 @@ public class User {
         }
     }
 
-    public boolean updata(String json) {
-
+    public boolean update(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            //TODO
+        }  catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
 
 
-    public List<User> getUserList(String json) {
+    static public List<User> getUserList(String json) {
         List<User> userList = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(json);
-            for (int i = 0; i < jsonArray.length(); ++ i) {
-                JSONObject tmp = jsonArray.getJSONObject(i);
+            JSONObject jsonObject = new JSONObject(json);
+
+
+            JSONArray userArray = jsonObject.getJSONArray("user");
+            for (int i = 0; i < userArray.length(); ++ i) {
+                JSONObject tmp = userArray.getJSONObject(i);
                 User user = new User(tmp.toString());
                 userList.add(user);
             }

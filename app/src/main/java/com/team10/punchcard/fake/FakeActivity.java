@@ -11,10 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.team10.punchcard.PunchcardService;
 import com.team10.punchcard.R;
 import com.team10.punchcard.unity.HttpUrlConnection;
 import com.team10.punchcard.unity.User;
 import com.team10.punchcard.unity.Word;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.List;
 
@@ -30,7 +36,7 @@ public class FakeActivity extends AppCompatActivity {
     private String showout = "";
     private FloatingActionButton fab;
 
-
+    PunchcardService service;
 
     Handler mHandler = new Handler() {
         @Override
@@ -59,12 +65,15 @@ public class FakeActivity extends AppCompatActivity {
         et = (EditText) findViewById(R.id.et_01);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        service = (new Retrofit.Builder()).baseUrl("http://172.18.42.208:5000/")
+                .addConverterFactory(GsonConverterFactory.create()).build().create(PunchcardService.class);
+
         // queryWord();
 
 
-        // getUserInfo();
+         getUserInfo();
         // Register();
-        getAllUser();
+//        getAllUser();
     }
 
 
@@ -146,32 +155,31 @@ public class FakeActivity extends AppCompatActivity {
     /** 获取一个用户的信息
     * */
     private void getUserInfo() {
-        final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
-                "http://www.liuw53.top/json/index.php?" + "name=liuw53&password=nopwd");
-        httpUrlConnection.getJsonFromInternet();
-        fab.setOnClickListener(new View.OnClickListener() {
+        Call<User> call = service.getUserInfo("liuw53");
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onClick(View view) {
-                String urlReg = "http://www.liuw53.top/json/index.php?" + "username=liuw53";
+            public void onResponse(final Call<User> call, final Response<User> response) {
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        User user = response.body();
+                        showout = user.toString();
 
-                try {
-                    User user = new User(httpUrlConnection.getResult());
-                    showout = user.toString();
+                        isSelect = !isSelect;
+                        if (isSelect) { tv.setText(""); }
+                        else tv.setText(showout);
 
+                        Snackbar.make(view, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });
+            }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable) {
 
-                isSelect = !isSelect;
-                if (isSelect) { tv.setText(""); }
-                else tv.setText(showout);
-
-                Snackbar.make(view, "Show: " + urlReg, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
-
     }
 
     /** 查询单词详细信息

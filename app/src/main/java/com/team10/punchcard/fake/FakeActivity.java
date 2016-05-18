@@ -1,8 +1,8 @@
+
 package com.team10.punchcard.fake;
 
+import android.accounts.NetworkErrorException;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,69 +11,49 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.team10.punchcard.PunchcardService;
+import com.team10.punchcard.service.ToastFailureCallback;
+import com.team10.punchcard.service.PunchcardService;
 import com.team10.punchcard.R;
-import com.team10.punchcard.unity.HttpUrlConnection;
+import com.team10.punchcard.service.ShanbayService;
+import com.team10.punchcard.service.pojo.UserRegisterRequest;
+import com.team10.punchcard.service.pojo.WordResponse;
 import com.team10.punchcard.unity.User;
-import com.team10.punchcard.unity.Word;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import retrofit2.Response; import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.List;
 
 public class FakeActivity extends AppCompatActivity {
-
-
-    String url = "https://api.shanbay.com/bdc/search/?word=connect";
-
-
     private TextView tv;
     private EditText et;
-    private boolean isSelect = false;
-    private String showout = "";
     private FloatingActionButton fab;
+    private Toolbar toolbar;
 
     PunchcardService service;
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            switch (msg.what) {
-                case HttpUrlConnection.PARSESUCCWSS:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
+    ShanbayService shanbayService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fake);
+        this.setContentView(R.layout.activity_fake);
 
+        tv = (TextView)findViewById(R.id.tv_01);
+        et = (EditText)findViewById(R.id.et_01);
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-        tv = (TextView) findViewById(R.id.tv_01);
-        et = (EditText) findViewById(R.id.et_01);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        service = (new Retrofit.Builder()).baseUrl("http://172.18.42.208:5000/")
+        service = new Retrofit.Builder().baseUrl(PunchcardService.END_POINT)
                 .addConverterFactory(GsonConverterFactory.create()).build().create(PunchcardService.class);
+        shanbayService = new Retrofit.Builder().baseUrl(ShanbayService.END_POINT)
+                .addConverterFactory(GsonConverterFactory.create()).build().create(ShanbayService.class);
 
-        // queryWord();
-
-
-         getUserInfo();
-        // Register();
-//        getAllUser();
+//        queryWord();
+//        getUserInfo();
+//        Register();
+        getAllUser();
     }
 
 
@@ -81,31 +61,21 @@ public class FakeActivity extends AppCompatActivity {
      * 获取好友列表。排行榜等
      */
     private void getAllUser() {
-
-        final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
-                "http://www.liuw53.top/json/list/index.php?id=1");
-        httpUrlConnection.getJsonFromInternet();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String urlList = "http://www.liuw53.top/json/list/index.php?id=1";
-
-                try {
-                    List<User> userList =  User.getUserList(httpUrlConnection.getResult());
-                    showout = "";
-                    for (User u : userList) {
-                        showout += (u.toString() + "\n\n");
+                Call<List<User>> call = service.getAllUsers();
+                call.enqueue(new ToastFailureCallback<List<User>>(view, new NetworkErrorException()) {
+                    @Override
+                    public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+                        List<User> users = response.body();
+                        String str = "";
+                        for (User u : users)
+                            str += u.toString() + "\n";
+                        tv.setText(str);
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                isSelect = !isSelect;
-                if (isSelect) { tv.setText(""); }
-                else tv.setText(showout);
-
-                Snackbar.make(view, "Show: " + urlList, Snackbar.LENGTH_LONG)
+                });
+                Snackbar.make(view, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -120,64 +90,47 @@ public class FakeActivity extends AppCompatActivity {
      *
      */
     private void Register() {
-
-        final String content = "username=liggg3&password=1234";
-        final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler,
-                "http://www.liuw53.top/json/register/index.php?" + content);
-        httpUrlConnection.getJsonFromInternet();
+        final UserRegisterRequest userinfo = new UserRegisterRequest();
+        userinfo.password = "123456";
+        userinfo.userName = "coolspring";
+        userinfo.name = "coolspring";
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String urlReg = "http://www.liuw53.top/json/register/index.php?" + content;
-
-                try {
-                    User user = new User();
-                    boolean isOK = user.register(httpUrlConnection.getResult());
-                    if (isOK) showout = "Register Successfuly!";
-                    else      showout = "Register Failed!";
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                isSelect = !isSelect;
-                if (isSelect) { tv.setText(""); }
-                else tv.setText(showout);
-
-                Snackbar.make(view, "Show: " + urlReg, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Call<User> call = service.registerUser(userinfo);
+                call.enqueue(new ToastFailureCallback<User>(view, new IllegalArgumentException("Register failed.")) {
+                    @Override
+                    protected void onSuccess(Call<User> call, Response<User> response) {
+                        User user = response.body();
+                        tv.setText(user.toString());
+                    }
+                });
+                Snackbar.make(view, call.request().url().toString(), Snackbar.LENGTH_LONG).show();
             }
         });
     }
 
-    // 实现方法getUserInfo()一样，找不则返回为user.id => -1
+    // 实现方法getUserInfo()一样，找不则返回为user.username => -1
     private void Login() {}
 
     /** 获取一个用户的信息
     * */
     private void getUserInfo() {
-        Call<User> call = service.getUserInfo("liuw53");
-        call.enqueue(new Callback<User>() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(final Call<User> call, final Response<User> response) {
-                fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                tv.setText("");
+                String user_input = et.getText().toString().trim();
+                Call<User> call = service.getUserInfo(user_input);
+                call.enqueue(new ToastFailureCallback<User>(view, new IllegalArgumentException("Invalid username.")) {
                     @Override
-                    public void onClick(View view) {
+                    public void onSuccess(Call<User> call, Response<User> response) {
                         User user = response.body();
-                        showout = user.toString();
-
-                        isSelect = !isSelect;
-                        if (isSelect) { tv.setText(""); }
-                        else tv.setText(showout);
-
-                        Snackbar.make(view, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        tv.setText(user.toString());
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable throwable) {
-
+                Snackbar.make(view, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
     }
@@ -188,34 +141,22 @@ public class FakeActivity extends AppCompatActivity {
      * @word
      */
     private void queryWord() {
-        final HttpUrlConnection httpUrlConnection = new HttpUrlConnection(mHandler, url);
-        httpUrlConnection.getJsonFromInternet();
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_input = et.getText().toString();
-                url = "https://api.shanbay.com/bdc/search/?word=" + user_input;
-
-                try {
-                    // get details of this word
-                    Word word = new Word(httpUrlConnection.getResult());
-                    showout = word.toString();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                isSelect = !isSelect;
-                if (isSelect) { tv.setText(""); }
-                else tv.setText(showout);
-
-                Snackbar.make(view, "Show: " + url, Snackbar.LENGTH_LONG)
+                String user_input = et.getText().toString().trim();
+                tv.setText("");
+                Call<WordResponse> call = shanbayService.getWord(user_input);
+                call.enqueue(new ToastFailureCallback<WordResponse>(view, new IllegalArgumentException("Word not found.")) {
+                    @Override
+                    public void onSuccess(Call<WordResponse> call, Response<WordResponse> response) {
+                        tv.setText(response.body().data.toString());
+                    }
+                });
+                Snackbar.make(view, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
     }
-
 }

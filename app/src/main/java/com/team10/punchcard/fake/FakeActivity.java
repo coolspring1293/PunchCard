@@ -11,17 +11,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.team10.punchcard.service.ToastFailureCallback;
 import com.team10.punchcard.service.PunchcardService;
 import com.team10.punchcard.R;
 import com.team10.punchcard.service.ShanbayService;
+import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.WordResponse;
 import com.team10.punchcard.unity.User;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response; import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.List;
 
 public class FakeActivity extends AppCompatActivity {
@@ -45,15 +54,27 @@ public class FakeActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        service = new Retrofit.Builder().baseUrl(PunchcardService.END_POINT)
+        // Cookies, for login
+        CookieJar cookiejar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookiejar).build();
+
+        service = new Retrofit.Builder().baseUrl(PunchcardService.END_POINT).client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build().create(PunchcardService.class);
         shanbayService = new Retrofit.Builder().baseUrl(ShanbayService.END_POINT)
                 .addConverterFactory(GsonConverterFactory.create()).build().create(ShanbayService.class);
 
+        // first login, then use the same http client to access other apis
+        service.login(new LoginRequest("leasunhy", "123456")).enqueue(new ToastFailureCallback<User>(fab) {
+            @Override
+            protected void onSuccess(Call<User> call, Response<User> response) {
+                getUserInfo();
+            }
+        });
+
 //        queryWord();
 //        getUserInfo();
 //        Register();
-        getAllUser();
+//        getAllUser();
     }
 
 
@@ -119,9 +140,7 @@ public class FakeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tv.setText("");
-                String user_input = et.getText().toString().trim();
-                Call<User> call = service.getUserInfo(user_input);
+                Call<User> call = service.getUserInfo();
                 call.enqueue(new ToastFailureCallback<User>(view, new IllegalArgumentException("Invalid username.")) {
                     @Override
                     public void onSuccess(Call<User> call, Response<User> response) {

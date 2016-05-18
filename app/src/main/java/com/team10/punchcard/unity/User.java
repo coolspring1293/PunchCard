@@ -139,21 +139,19 @@ import java.util.List;
 //}
 
 public class User {
-    private int   id;
+    private int    id;
+    private String userName;
     private int    rank;
     private String name;
-    private String password;
-    private String avatar;
     private int    continuousDays;
     public  int    goldCoinAmount;
     public  int    goldCoinToday;
 
     @Override
     public String toString() {
-        String tmp = "username: " + this.id + "\n";
+        String tmp = "username: " + this.userName + "\n";
         tmp += ("name: " + this.name + "\n");
         tmp += ("rand: " + (this.rank == -1 ? "No Rank!" : this.rank ) + "\n");
-        tmp += ("avatar: " + this.avatar + "\n");
         tmp += ("continuousDays " + this.continuousDays + "\n");
         tmp += ("goldCoinAmount " + this.goldCoinAmount + "\n");
         tmp += ("goldCoinToday " + this.goldCoinToday + "\n");

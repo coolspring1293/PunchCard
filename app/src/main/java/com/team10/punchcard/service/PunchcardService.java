@@ -1,5 +1,6 @@
 package com.team10.punchcard.service;
 
+import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.UserUpdateRequest;
 import com.team10.punchcard.unity.User;
@@ -16,19 +17,19 @@ import java.util.List;
 public interface PunchcardService {
     String END_POINT = "http://172.18.42.208:5000/";
 
-    @GET("/user/{username}")
-    Call<User> getUserInfo(@Path("username") String username);
+    @GET("/me")
+    Call<User> getUserInfo();
+
+    @PUT("/me")
+    Call<User> updateUser(@Body UserUpdateRequest request);
 
     @POST("/user")
     Call<User> registerUser(@Body UserRegisterRequest request);
 
-    @PUT("/user/{username}")
-    Call<User> updateUser(@Path("username") String username, @Body UserUpdateRequest request);
-
-    @DELETE("/user/{username}")
-    Call<ResponseBody> deleteUser(@Path("username") String username);
-
     @GET("/user")
     Call<List<User>> getAllUsers();
+
+    @POST("/login")
+    Call<User> login(@Body LoginRequest request);
 }
 

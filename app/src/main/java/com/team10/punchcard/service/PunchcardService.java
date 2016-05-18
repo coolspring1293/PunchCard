@@ -4,7 +4,6 @@ import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.UserUpdateRequest;
 import com.team10.punchcard.unity.User;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 

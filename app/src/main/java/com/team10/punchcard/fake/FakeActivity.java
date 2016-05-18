@@ -22,15 +22,13 @@ import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.WordResponse;
 import com.team10.punchcard.unity.User;
-import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
-import retrofit2.Response; import retrofit2.Retrofit;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
 import java.util.List;
 
 public class FakeActivity extends AppCompatActivity {
@@ -119,7 +117,7 @@ public class FakeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Call<User> call = service.registerUser(userinfo);
-                call.enqueue(new ToastFailureCallback<User>(view, new IllegalArgumentException("Register failed.")) {
+                call.enqueue(new ToastFailureCallback<User>(view, new IllegalArgumentException("Registration failed.")) {
                     @Override
                     protected void onSuccess(Call<User> call, Response<User> response) {
                         User user = response.body();
@@ -132,6 +130,7 @@ public class FakeActivity extends AppCompatActivity {
     }
 
     // 实现方法getUserInfo()一样，找不则返回为user.username => -1
+    // TODO(leasunhy): 已经实现，看上面的onCreate()
     private void Login() {}
 
     /** 获取一个用户的信息

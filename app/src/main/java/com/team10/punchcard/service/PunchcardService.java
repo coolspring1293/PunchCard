@@ -14,7 +14,7 @@ import java.util.List;
  * Created by leasunhy on 5/18/16.
  */
 public interface PunchcardService {
-    String END_POINT = "http://172.18.42.208:5000/";
+    String END_POINT = "http://172.18.187.84:5000/";
 
     @GET("/me")
     Call<User> getUserInfo();

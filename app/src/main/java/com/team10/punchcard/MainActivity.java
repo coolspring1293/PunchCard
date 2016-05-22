@@ -12,11 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.team10.punchcard.fake.FakeActivity;
 
 import java.util.ArrayList;
 
@@ -47,6 +50,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        Button bt2=(Button)findViewById(R.id.button2);
+        bt2.setOnClickListener(new bnClickListener());
+    }
+
+    class bnClickListener implements View.OnClickListener
+    {
+        public void onClick(View v)
+        {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, FakeActivity.class);
+            startActivity(intent);
+
+
+        }
+
     }
 
     @Override

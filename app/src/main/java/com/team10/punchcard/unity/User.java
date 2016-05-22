@@ -139,6 +139,46 @@ import java.util.List;
 //}
 
 public class User {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getContinuousDays() {
+        return continuousDays;
+    }
+
+    public void setContinuousDays(int continuousDays) {
+        this.continuousDays = continuousDays;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     private int    id;
     private String userName;
     private int    rank;

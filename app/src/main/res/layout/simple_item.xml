@@ -11,6 +11,7 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_weight="4"
+            android:textColor="#666666"
             android:gravity="center"
             android:layout_gravity="center_vertical"
             ></TextView>
@@ -26,6 +27,7 @@
 
         <TextView
             android:id="@+id/name"
+            android:textColor="#666666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="8"
@@ -39,6 +41,7 @@
             android:layout_gravity="center_vertical"></ImageView>
         <TextView
             android:id="@+id/gcAmount"
+            android:textColor="#666666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
@@ -51,6 +54,7 @@
             android:layout_gravity="center_vertical"></ImageView>
         <TextView
             android:id="@+id/continuousDays"
+            android:textColor="#666666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"

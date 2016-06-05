@@ -14,22 +14,23 @@ import android.widget.TextView;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.team10.punchcard.service.ToastFailureCallback;
-import com.team10.punchcard.service.PunchcardService;
 import com.team10.punchcard.R;
+import com.team10.punchcard.service.PunchcardService;
 import com.team10.punchcard.service.ShanbayService;
+import com.team10.punchcard.service.ToastFailureCallback;
 import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.WordResponse;
 import com.team10.punchcard.unity.User;
+
+import java.util.List;
+
 import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.List;
 
 public class FakeActivity extends AppCompatActivity {
     private TextView tv;

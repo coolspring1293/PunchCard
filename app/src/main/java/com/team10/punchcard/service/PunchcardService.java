@@ -4,17 +4,21 @@ import com.team10.punchcard.service.pojo.LoginRequest;
 import com.team10.punchcard.service.pojo.UserRegisterRequest;
 import com.team10.punchcard.service.pojo.UserUpdateRequest;
 import com.team10.punchcard.unity.User;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 
 /**
  * Created by leasunhy on 5/18/16.
  */
 public interface PunchcardService {
-    String END_POINT = "http://172.18.187.84:5000/";
+    String END_POINT = "http://ali.leasunhy.com:8000/";
 
     @GET("/me")
     Call<User> getUserInfo();
@@ -30,5 +34,8 @@ public interface PunchcardService {
 
     @POST("/login")
     Call<User> login(@Body LoginRequest request);
+
+    @GET("/leaderboard")
+    Call<List<User>> getLeaderboard();
 }
 

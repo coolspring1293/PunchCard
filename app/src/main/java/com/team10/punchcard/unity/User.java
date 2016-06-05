@@ -1,14 +1,5 @@
 package com.team10.punchcard.unity;
 
-import android.renderscript.Long2;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by liuw53 on 5/16/16.
  */
@@ -163,6 +154,14 @@ public class User {
         this.name = name;
     }
 
+    public String getRankPercent() {
+        return rankPercent;
+    }
+
+    public void setRankPercent(String rankPercent) {
+        this.rankPercent = rankPercent;
+    }
+
     public int getRank() {
         return rank;
     }
@@ -179,6 +178,14 @@ public class User {
         this.userName = userName;
     }
 
+    public int getGoldCoinAmount() {
+        return goldCoinAmount;
+    }
+
+    public void seGoldCoinAmount(int goldCoinAmount) {
+        this.goldCoinAmount = goldCoinAmount;
+    }
+
     private int    id;
     private String userName;
     private int    rank;
@@ -186,6 +193,7 @@ public class User {
     private int    continuousDays;
     public  int    goldCoinAmount;
     public  int    goldCoinToday;
+    public  String rankPercent;
 
     @Override
     public String toString() {
@@ -195,6 +203,7 @@ public class User {
         tmp += ("continuousDays " + this.continuousDays + "\n");
         tmp += ("goldCoinAmount " + this.goldCoinAmount + "\n");
         tmp += ("goldCoinToday " + this.goldCoinToday + "\n");
+        tmp += ("rankPercent" + rankPercent + "\n");
         return tmp;
     }
 }

@@ -2,18 +2,17 @@ package com.team10.punchcard;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.team10.punchcard.fake.FakeActivity;
 import com.team10.punchcard.service.ShanbayService;
 import com.team10.punchcard.service.ToastFailureCallback;
 import com.team10.punchcard.service.pojo.WordResponse;
@@ -40,7 +39,8 @@ public class WordsActivity extends Activity {
     private TextView another;
     private Button bn;
     private String TABLE_NAME = "TOEFL";
- //   private MediaPlayer mediaPlayer;
+    private Util mp;
+    //   private MediaPlayer mediaPlayer;
     private String url;
     int flag=0;
 
@@ -65,6 +65,7 @@ public class WordsActivity extends Activity {
         shanbayService = new Retrofit.Builder().baseUrl(ShanbayService.END_POINT)
                 .addConverterFactory(GsonConverterFactory.create()).build().create(ShanbayService.class);
 
+        mp=(Util) this.getApplication();
         helper = new dbHelper(this);
 /*        try {
             String path= "file:///android_asset/toefl1.txt";
@@ -80,20 +81,24 @@ public class WordsActivity extends Activity {
         }*/
 
 
-        try {
-            InputStream in = getResources().getAssets().open("toefl1.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String term;
-            while((term=reader.readLine())!=null)
-                helper.insert(term);
-            reader.close();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
 
+        SharedPreferences settings = this.getSharedPreferences("word", MODE_APPEND);
+        SharedPreferences.Editor localEditor = settings.edit();
+        if(settings.getBoolean("if_insert",true)){
+            localEditor.putBoolean("if_insert", false);
+            localEditor.commit();
+            try {
+                InputStream in = getResources().getAssets().open("toefl1.txt");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                String term;
+                while ((term = reader.readLine()) != null)
+                    helper.insert(term);
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+        };
         cursor = helper.query();
 
         bn = (Button) findViewById(R.id.bt1);
@@ -109,6 +114,7 @@ public class WordsActivity extends Activity {
 
 
         cursor.moveToNext();
+        //mp.setNum(mp.getNum()+1);
         int nameColumnIndex = cursor.getColumnIndex("word");
         String word = cursor.getString(nameColumnIndex);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -132,7 +138,10 @@ public class WordsActivity extends Activity {
         public void onClick(View v) {
 
             if(flag==0) {
-                if (cursor.moveToNext()) {
+                if (mp.getNum()<mp.getTotal()) {
+                    cursor = helper.query();
+                    cursor.moveToNext();
+                    mp.setNum(mp.getNum()+1);
                     int nameColumnIndex = cursor.getColumnIndex("word");
                     String word = cursor.getString(nameColumnIndex);
                     SQLiteDatabase db = helper.getWritableDatabase();
@@ -149,19 +158,7 @@ public class WordsActivity extends Activity {
                             url = response.body().data.audio;
                         }
                     });
-               /* Snackbar.make(v, "Show: " + call.request().url(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
 
-              /*  try {
-                    MediaPlayer mediaPlayer = new MediaPlayer();
-                    mediaPlayer
-                            .setDataSource(url);
-
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    Log.v("AUDIOHTTPPLAYER", e.getMessage());
-                }*/
                 } else {
                     bn.setText("打卡");
                     another.setVisibility(View.VISIBLE);
@@ -172,6 +169,7 @@ public class WordsActivity extends Activity {
             }
             else
             {
+                mp.setisChecked(true);
                 Intent intent = new Intent();
                 intent.setClass(WordsActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -187,6 +185,7 @@ public class WordsActivity extends Activity {
             cursor = helper.query();
             another.setVisibility(View.INVISIBLE);
             bn.setText("下一个");
+            mp.setTotal(mp.getTotal()+10);
             flag=0;
 
         }

@@ -44,7 +44,7 @@ public class AppStart extends Activity {
      * 跳转到...
      */
     private void redirectTo(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         //intent.setClassName(this, "com.team10.punchcard.MainActivity");
         startActivity(intent);
         finish();

@@ -14,20 +14,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.team10.punchcard.fake.FakeActivity;
+import com.team10.punchcard.service.PunchcardService;
+import com.team10.punchcard.service.ToastFailureCallback;
+import com.team10.punchcard.unity.User;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private PieChart mChart;
+    private TextView name;
+    //private TextView name1;
+    private TextView days;
+    private TextView today;
+    private TextView rank;
+    private PunchcardService service;
+    private boolean isChecked;
+    private ProgressBar rankP;
+    private Util util;
+    private TextView al;
 
 
     @Override
@@ -38,8 +55,50 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mChart = (PieChart) findViewById(R.id.spread_pie_chart);
+
+
+        //获取id
+        rank = (TextView) findViewById(R.id.textView);
+        name = (TextView) findViewById(R.id.textView2);
+        al = (TextView) findViewById(R.id.textView3);
+        days = (TextView) findViewById(R.id.textView4);
+        today = (TextView) findViewById(R.id.textView5);
+        rankP = (ProgressBar)  findViewById(R.id.progressBar01);
+
+
+        util = (Util) this.getApplication();
+        service = util.getService();
+        isChecked = util.getisChecked();
+
+        Call<User> call = service.getUserInfo();
+        call.enqueue(new ToastFailureCallback<User>(name, new IllegalArgumentException("Invalid username.")) {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                User user = response.body();
+                name.setText("你好！" + user.getName());
+                //name1.setText(user.getName());
+                rank.setText("你已经超越了" + user.getRankPercent() + "的好友！");
+                al.setText("今日你已经背了"+ util.getNum() + "个单词，还差" +  (util.getTotal() - util.getNum()) +"个。");
+                String tmp  = user.getRankPercent();
+                String[] data = tmp.split("%");
+                int i = Integer.parseInt(data[0]);
+                rankP.setProgress(i);
+                if (isChecked) {
+                    today.setText("今日打卡状态：已打卡");
+                    days.setText("连续打卡天数：" + (user.getContinuousDays()+1) + "天");
+
+                }
+                else {
+                    today.setText("今日打卡状态：未打卡");
+                    days.setText("连续打卡天数：" + user.getContinuousDays() + "天");
+
+                }
+            }
+        });
+
         PieData mPieData = getPieData(2);
         showChart(mChart, mPieData);
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v)
         {
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this, FakeActivity.class);
+            intent.setClass(MainActivity.this, WordsActivity.class);
             startActivity(intent);
 
 
@@ -158,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         pieChart.setRotationEnabled(true); // 可以手动旋转
 
         // display percentage values
-        pieChart.setUsePercentValues(true);  //显示成百分比
+        //pieChart.setUsePercentValues(true);  //显示成百分比
         // mChart.setUnit(" €");
         // mChart.setDrawUnitsInChart(true);
 
@@ -169,6 +228,7 @@ public class MainActivity extends AppCompatActivity
 //      mChart.setOnAnimationListener(this);
 
         pieChart.setCenterText("今日单词");  //饼状图中间的文字
+        pieChart.setCenterTextColor(1);
 
         //设置数据
         pieChart.setData(pieData);
@@ -194,11 +254,9 @@ public class MainActivity extends AppCompatActivity
      * @param count 分成几部分
      */
     private PieData getPieData(int count) {
-
-
         ArrayList<String> xValues = new ArrayList<String>();  //xVals用来表示每个饼块上的内容
-        xValues.add("已经背了的");
-        xValues.add("还没背的");
+        xValues.add("已背单词");
+        xValues.add("未背单词");
 
         /*
         for (int i = 0; i < count; i++) {
@@ -218,8 +276,8 @@ public class MainActivity extends AppCompatActivity
         float quarterly3 = 34;
         float quarterly4 = 38;*/
 
-        int quarterly1 = 35;
-        int quarterly2 = 65;
+        int quarterly1 = util.getNum();
+        int quarterly2 = util.getTotal() - util.getNum();
 
 
         yValues.add(new Entry(quarterly1, 0));
